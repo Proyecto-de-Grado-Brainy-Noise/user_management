@@ -1,0 +1,27 @@
+version: '3'
+
+name: brainy-noise
+
+services:
+  users-db:
+    container_name: users-db
+    build:
+      context: ./database
+    environment:
+      - MYSQL_ROOT_PASSWORD=1
+    ports:
+      - 3307:3306
+    volumes:
+      - users-db:/var/lib/mysql
+
+  users-management:
+    container_name: users-management
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - users-db
+
+volumes:
+  users-db: {}
