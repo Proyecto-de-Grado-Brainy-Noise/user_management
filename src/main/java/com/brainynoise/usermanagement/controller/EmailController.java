@@ -28,7 +28,6 @@ public class EmailController {
             } else if(template.equals("resetPassword")){
                 subject = "Reestablecimiento de contraseña";
             }
-            //String messageText = "Contenido del mensaje";
 
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
@@ -57,7 +56,6 @@ public class EmailController {
 
                 message.setContent(html, "text/html; charset=UTF-8");
                 Transport.send(message);
-                /*System.out.println("Correo enviado con éxito");*/
             } catch (MessagingException e) {
                 e.printStackTrace();
             }

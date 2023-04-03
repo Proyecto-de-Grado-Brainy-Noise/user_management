@@ -70,14 +70,16 @@ public class AuthenticationController {
         };
 
         //Register user
-        request.setPassword(this.generatePassword(8));
+        String password = this.generatePassword(8);
+        request.setPassword(password);
         AuthenticationResponse response = service.register(request);
+        EmailController emailController = new EmailController();
+        emailController.emailSender(request.getEmail(), request.getName(), password, "newUser");
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
-        System.out.println("holllaaa");
         return ResponseEntity.ok(service.authenticate(request));
     }
 }

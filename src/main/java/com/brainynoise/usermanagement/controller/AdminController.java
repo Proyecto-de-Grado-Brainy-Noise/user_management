@@ -19,35 +19,6 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-    /*@PostMapping(value = "/saveUser")
-    public ResponseEntity<ResponseDataString> saveUser(@RequestBody User user) {
-        User temp = userService.getUsersByEmail(user.getEmail());
-        if (temp != null) {
-            return new ResponseEntity<>(new ResponseDataString("El usuario con email " + user.getEmail() + " ya existe", 400), HttpStatus.BAD_REQUEST);
-        }
-        temp = userService.getUsersByEmployeeId(user.getIdEmployee());
-        if (temp != null) {
-            return new ResponseEntity<>(new ResponseDataString("El usuario con id de empleado " + user.getIdEmployee() + " ya existe", 400), HttpStatus.BAD_REQUEST);
-        }
-        List<User> temp2 = userService.getUsersByDocument(user.getDocument());
-        boolean flag = false;
-        for (User u : temp2) {
-            if (u.getDoctype() == user.getDoctype()) {
-                flag = true;
-            }
-        }
-        if (flag) {
-            return new ResponseEntity<>(new ResponseDataString("El usuario con el documento ingresado ya existe", 400), HttpStatus.BAD_REQUEST);
-        }
-        userService.saveUser(user);
-        String password = generatePassword(8);
-        PasswordController passwordController = new PasswordController(credentialService);
-        passwordController.savePassword(user.getEmail(), password);
-        EmailController emailController = new EmailController();
-        emailController.emailSender(user.getEmail(), user.getName(), password, "newUser");
-        return new ResponseEntity<>(new ResponseDataString("Usuario creado exitosamente", 200), HttpStatus.OK);
-    }*/
-
     @PostMapping(value = "/updateUser")
     public ResponseEntity<ResponseDataString> updateUser(@RequestBody User user) {
         User us = userService.getUsersByEmail(user.getEmail());
