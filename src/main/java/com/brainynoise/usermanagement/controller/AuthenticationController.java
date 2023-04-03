@@ -1,19 +1,26 @@
 package com.brainynoise.usermanagement.controller;
 
+import com.brainynoise.usermanagement.entity.User;
 import com.brainynoise.usermanagement.requests.AuthenticationRequest;
 import com.brainynoise.usermanagement.requests.RegisterRequest;
 import com.brainynoise.usermanagement.responses.AuthenticationResponse;
 import com.brainynoise.usermanagement.service.AuthenticationService;
+import com.brainynoise.usermanagement.service.UserService;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService service;
+    @Autowired
+    private UserService userService;
 
     private String generatePassword(int n) {
         //Choose a random character from this String
@@ -29,17 +36,32 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
-        try {
-            String passsword = this.generatePassword(8);
-            System.out.println(passsword);
-            request.setPassword(passsword);
-            return ResponseEntity.ok(service.register(request));
-        } catch (DuplicateKeyException e) {
+        //Check if email exists
+        User temp = userService.getUsersByEmail(request.getEmail());
+        if (temp != null) {
             AuthenticationResponse response = AuthenticationResponse.builder()
                     .token("El usuario con email " + request.getEmail() + " ya existe")
                     .build();
             return ResponseEntity.badRequest().body(response);
         }
+
+        //Check if employee_id exists
+        temp = userService.getUsersByEmployeeId(request.getIdEmployee());
+        if (temp != null) {
+            AuthenticationResponse response = AuthenticationResponse.builder()
+                    .token("El usuario con id de empleado " + request.getIdEmployee() + " ya existe")
+                    .build();
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        //TODO: FIX SEARCH BY DOCUMENT
+        /*List<User> temp2 = userService.getUsersByDocument(request.getDocument());
+        boolean flag = false;*/
+
+        //Register user
+        request.setPassword(this.generatePassword(8));
+        AuthenticationResponse response = service.register(request);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/authenticate")
