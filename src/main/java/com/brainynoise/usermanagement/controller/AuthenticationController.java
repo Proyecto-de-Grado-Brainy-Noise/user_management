@@ -54,9 +54,20 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().body(response);
         }
 
-        //TODO: FIX SEARCH BY DOCUMENT
-        /*List<User> temp2 = userService.getUsersByDocument(request.getDocument());
-        boolean flag = false;*/
+        //Check if document exists
+        List<User> temp2 = userService.getUsersByDocument(request.getDocument());
+        boolean flag = false;
+        for (User u : temp2) {
+            if (u.getDoctype() == request.getDoctype()) {
+                flag = true;
+            }
+        }
+        if (flag) {
+            AuthenticationResponse response = AuthenticationResponse.builder()
+                    .token("El usuario con el documento ingresado ya existe")
+                    .build();
+            return ResponseEntity.badRequest().body(response);
+        };
 
         //Register user
         request.setPassword(this.generatePassword(8));
