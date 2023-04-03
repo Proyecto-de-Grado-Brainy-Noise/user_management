@@ -1,4 +1,4 @@
-package com.brainynoise.usermanagement.controller;
+package com.brainynoise.usermanagement.responses;
 
 import com.brainynoise.usermanagement.entity.User;
 import java.util.List;

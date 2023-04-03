@@ -1,7 +1,9 @@
 package com.brainynoise.usermanagement.controller;
 
 import com.brainynoise.usermanagement.entity.User;
-import com.brainynoise.usermanagement.service.CredentialService;
+import com.brainynoise.usermanagement.requests.EmailRequest;
+import com.brainynoise.usermanagement.requests.ResetPasswordRequest;
+import com.brainynoise.usermanagement.responses.ResponseDataString;
 import com.brainynoise.usermanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,16 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.SQLException;
-
 @RestController
 @RequestMapping("/")
 public class ResetPasswordController {
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private CredentialService credentialService;
 
     @PostMapping(value = "reset-password")
     public ResponseEntity<ResponseDataString> sendEmailResPwd(@RequestBody EmailRequest request){
@@ -36,7 +33,7 @@ public class ResetPasswordController {
         }
     }
 
-    @PostMapping(value = "respwd")
+    /*@PostMapping(value = "respwd")
     public ResponseEntity<ResponseDataString> resetPassword(@RequestBody ResetPasswordRequest request){
         User user;
         user = userService.getUsersByEmail(request.getEmail());
@@ -47,6 +44,6 @@ public class ResetPasswordController {
             passwordController.savePassword(request.getEmail(), request.getPassword());
             return new ResponseEntity<>(new ResponseDataString("Contraseña actualizada", 200), HttpStatus.OK);
         }
-    }
+    }*/
 
 }

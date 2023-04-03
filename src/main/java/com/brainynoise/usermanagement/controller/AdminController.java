@@ -1,15 +1,16 @@
 package com.brainynoise.usermanagement.controller;
 
-import com.brainynoise.usermanagement.entity.Credential;
 import com.brainynoise.usermanagement.entity.User;
-import com.brainynoise.usermanagement.service.CredentialService;
+import com.brainynoise.usermanagement.responses.ResponseDataArray;
+import com.brainynoise.usermanagement.responses.ResponseDataBoolean;
+import com.brainynoise.usermanagement.responses.ResponseDataString;
 import com.brainynoise.usermanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,21 +19,7 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private CredentialService credentialService;
-
-    public String generatePassword(int n) {
-        //Choose a random character from this String
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz" + "!@#$%^&*()_+";
-        StringBuilder sb = new StringBuilder(n);
-        for (int i = 0; i < n; i++) {
-            //Select a random character from the string and append it to the string builder
-            int index = (int)(AlphaNumericString.length() * Math.random());
-            sb.append(AlphaNumericString.charAt(index));
-        }
-        return sb.toString();
-    }
-    @PostMapping(value = "/saveUser")
+    /*@PostMapping(value = "/saveUser")
     public ResponseEntity<ResponseDataString> saveUser(@RequestBody User user) {
         User temp = userService.getUsersByEmail(user.getEmail());
         if (temp != null) {
@@ -59,7 +46,7 @@ public class AdminController {
         EmailController emailController = new EmailController();
         emailController.emailSender(user.getEmail(), user.getName(), password, "newUser");
         return new ResponseEntity<>(new ResponseDataString("Usuario creado exitosamente", 200), HttpStatus.OK);
-    }
+    }*/
 
     @PostMapping(value = "/updateUser")
     public ResponseEntity<ResponseDataString> updateUser(@RequestBody User user) {
@@ -73,16 +60,17 @@ public class AdminController {
 
     @PostMapping(value = "/searchUser")
     public ResponseEntity<ResponseDataArray> searchUser(@RequestBody RequestSearchUser reqSearchUser) {
-        List<User> user = null;
+        List<User> user = new ArrayList<>();
         if (reqSearchUser.getIdEmployee() != null) {
-            user.add(userService.getUsersByEmployeeId(reqSearchUser.getIdEmployee()));
+            User addedUser = userService.getUsersByEmployeeId(reqSearchUser.getIdEmployee());
+            user.add(addedUser);
             return new ResponseEntity<>(new ResponseDataArray(user, 200), HttpStatus.OK);
         }
         boolean flag = false;
         if (reqSearchUser.getDoctype() != 0 && reqSearchUser.getDocument() != null) {
             user = userService.getUsersByDocument(reqSearchUser.getDocument());
             if (user == null) {
-                return new ResponseEntity<>(new ResponseDataArray(user, 200), HttpStatus.OK);
+                return new ResponseEntity<>(new ResponseDataArray(null, 200), HttpStatus.OK);
             }
             User found = null;
             for (User u : user) {
@@ -97,7 +85,7 @@ public class AdminController {
             } else {
                 user.removeAll(user);
                 user.add(found);
-                return new ResponseEntity<>(new ResponseDataArray(user, 200), HttpStatus.OK);
+                return new ResponseEntity<ResponseDataArray>(new ResponseDataArray(user, 200), HttpStatus.OK);
             }
         }
         return new ResponseEntity<>(new ResponseDataArray(user, 200), HttpStatus.OK);
@@ -121,7 +109,7 @@ public class AdminController {
     class RequestSearchUser {
         private int doctype;
         private String document;
-        private BigInteger idEmployee;
+        private Integer idEmployee;
 
         public int getDoctype() {
             return doctype;
@@ -139,11 +127,11 @@ public class AdminController {
             this.document = document;
         }
 
-        public BigInteger getIdEmployee() {
+        public Integer getIdEmployee() {
             return idEmployee;
         }
 
-        public void setIdEmployee(BigInteger idEmployee) {
+        public void setIdEmployee(Integer idEmployee) {
             this.idEmployee = idEmployee;
         }
     }

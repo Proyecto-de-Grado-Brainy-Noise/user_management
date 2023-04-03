@@ -1,4 +1,4 @@
-package com.brainynoise.usermanagement.controller;
+package com.brainynoise.usermanagement.responses;
 
 public class ResponseDataBoolean {
     private Boolean message;

@@ -1,4 +1,4 @@
-package com.brainynoise.usermanagement.controller;
+package com.brainynoise.usermanagement.requests;
 
 public class ResetPasswordRequest {
     private String email;

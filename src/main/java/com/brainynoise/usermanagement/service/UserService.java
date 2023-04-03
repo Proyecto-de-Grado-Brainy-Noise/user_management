@@ -27,7 +27,7 @@ public class UserService {
         return repository.findById(email).orElse(null);
     }
 
-    public User getUsersByEmployeeId(BigInteger employeeId) {
+    public User getUsersByEmployeeId(Integer employeeId) {
         return repository.findByIdEmployee(employeeId);
     }
 

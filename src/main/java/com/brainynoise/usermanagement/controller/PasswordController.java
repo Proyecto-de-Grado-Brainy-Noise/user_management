@@ -1,18 +1,8 @@
 package com.brainynoise.usermanagement.controller;
 
-import com.brainynoise.usermanagement.entity.Credential;
-import com.brainynoise.usermanagement.service.CredentialService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
@@ -21,7 +11,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 public class PasswordController {
-    private final CredentialService credentialService;
+    /*private final CredentialService credentialService;
 
     public PasswordController(CredentialService credentialService) {
         this.credentialService = credentialService;
@@ -43,7 +33,7 @@ public class PasswordController {
         System.out.println("Secure password = " + encryptedpassword);
         System.out.println("Salt value = " + saltvalue);
         return new Credential(email, encryptedpassword, saltvalue);
-    }
+    }*/
 
     public boolean verifyPassword(String password, String encryptedPassword, String salt) { /* Remove this method from the controller */
         boolean passwordMatch = PassBasedEnc.verifyUserPassword(password, encryptedPassword, salt);
