@@ -4,6 +4,8 @@ import com.brainynoise.usermanagement.entity.User;
 import com.brainynoise.usermanagement.requests.EmailRequest;
 import com.brainynoise.usermanagement.requests.ResetPasswordRequest;
 import com.brainynoise.usermanagement.responses.ResponseDataString;
+import com.brainynoise.usermanagement.service.AuthenticationService;
+import com.brainynoise.usermanagement.service.JwtService;
 import com.brainynoise.usermanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,17 +35,17 @@ public class ResetPasswordController {
         }
     }
 
-    /*@PostMapping(value = "respwd")
+    @PostMapping(value = "respwd")
     public ResponseEntity<ResponseDataString> resetPassword(@RequestBody ResetPasswordRequest request){
-        User user;
-        user = userService.getUsersByEmail(request.getEmail());
-        if (user == null){
-            return new ResponseEntity<>(new ResponseDataString("El usuario con email " + request.getEmail() + " no existe", 400), HttpStatus.BAD_REQUEST);
-        } else {
-            PasswordController passwordController = new PasswordController(credentialService);
-            passwordController.savePassword(request.getEmail(), request.getPassword());
-            return new ResponseEntity<>(new ResponseDataString("Contraseña actualizada", 200), HttpStatus.OK);
+        User us = userService.getUsersByEmail(request.getEmail());
+        if (us == null) {
+            return new ResponseEntity<>(new ResponseDataString("El usuario con email " + us.getEmail() + " no existe", 400), HttpStatus.BAD_REQUEST);
         }
-    }*/
-
+        us = userService.updatePassword(request, us);
+        if (us == null) {
+            return new ResponseEntity<>(new ResponseDataString("Hubo un error al actualizar la contraseña", 400), HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(new ResponseDataString("Su contraseña se ha actualizado exitosamente", 200), HttpStatus.OK);
+        }
+    }
 }
