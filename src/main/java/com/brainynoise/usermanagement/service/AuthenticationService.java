@@ -49,21 +49,17 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        System.out.println(request.getEmail() + " " + request.getPassword());
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        System.out.println("Use authentication manager");
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        System.out.println(jwtToken);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
-        System.out.println("Antes del return");
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();

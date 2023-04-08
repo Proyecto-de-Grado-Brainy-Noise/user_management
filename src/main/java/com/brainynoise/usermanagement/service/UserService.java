@@ -1,12 +1,11 @@
 package com.brainynoise.usermanagement.service;
 
-import com.brainynoise.usermanagement.entity.Result;
 import com.brainynoise.usermanagement.entity.User;
 import com.brainynoise.usermanagement.repository.UserRepository;
+import com.brainynoise.usermanagement.requests.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -40,7 +39,7 @@ public class UserService {
         return "El usuario ha sido eliminado";
     }
 
-    public User updateUser(User user) {
+    public User updateUser(UserRequest user) {
         User existingUser = repository.findById(user.getEmail()).orElse(null);
         existingUser.setName(user.getName());
         existingUser.setName2(user.getName2());

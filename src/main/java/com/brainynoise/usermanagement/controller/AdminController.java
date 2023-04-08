@@ -1,9 +1,11 @@
 package com.brainynoise.usermanagement.controller;
 
 import com.brainynoise.usermanagement.entity.User;
+import com.brainynoise.usermanagement.requests.UserRequest;
 import com.brainynoise.usermanagement.responses.ResponseDataArray;
 import com.brainynoise.usermanagement.responses.ResponseDataBoolean;
 import com.brainynoise.usermanagement.responses.ResponseDataString;
+import com.brainynoise.usermanagement.service.TokenService;
 import com.brainynoise.usermanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +20,11 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping(value = "/updateUser")
-    public ResponseEntity<ResponseDataString> updateUser(@RequestBody User user) {
+    public ResponseEntity<ResponseDataString> updateUser(@RequestBody UserRequest user) {
         User us = userService.getUsersByEmail(user.getEmail());
         if (us == null) {
             return new ResponseEntity<>(new ResponseDataString("El usuario con email " + user.getEmail() + " no existe", 400), HttpStatus.BAD_REQUEST);
@@ -68,11 +72,12 @@ public class AdminController {
     }
 
     @PostMapping(value = "/deleteUser")
-    public ResponseEntity<ResponseDataBoolean> deleteUser(@RequestBody User user) {
+    public ResponseEntity<ResponseDataBoolean> deleteUser(@RequestBody UserRequest user) {
         User us = userService.getUsersByEmail(user.getEmail());
         if (us == null) {
             return new ResponseEntity<>(new ResponseDataBoolean(false, 400), HttpStatus.BAD_REQUEST);
         }
+        tokenService.deleteTokens(us);
         userService.deleteUser(user.getEmail());
         return new ResponseEntity<>(new ResponseDataBoolean(true, 200), HttpStatus.OK);
     }

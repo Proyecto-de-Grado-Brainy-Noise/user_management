@@ -1,6 +1,7 @@
 package com.brainynoise.usermanagement.repository;
 
 import com.brainynoise.usermanagement.entity.Token;
+import com.brainynoise.usermanagement.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
