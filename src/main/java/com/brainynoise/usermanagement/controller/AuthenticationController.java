@@ -5,7 +5,10 @@ import com.brainynoise.usermanagement.requests.AuthenticationRequest;
 import com.brainynoise.usermanagement.requests.RegisterRequest;
 import com.brainynoise.usermanagement.responses.AuthenticationResponse;
 import com.brainynoise.usermanagement.service.AuthenticationService;
+import com.brainynoise.usermanagement.service.JwtService;
 import com.brainynoise.usermanagement.service.UserService;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -19,6 +22,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService service;
+    @Autowired
+    private JwtService jwtService;
     @Autowired
     private UserService userService;
 
@@ -81,5 +86,12 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(service.authenticate(request));
+    }
+
+    @GetMapping("/renovate-token")
+    public ResponseEntity<AuthenticationResponse> renovate(HttpServletRequest request) {
+        String token =  request.getHeader("Authorization").substring(7);
+        String email = jwtService.extractUsername(token);
+        return ResponseEntity.ok(service.refreshToken(email));
     }
 }

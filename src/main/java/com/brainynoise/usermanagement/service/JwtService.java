@@ -1,5 +1,6 @@
 package com.brainynoise.usermanagement.service;
 
+import com.brainynoise.usermanagement.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -29,8 +30,11 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(User user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role",user.getRole());
+        claims.put("name", user.getName() + " " + user.getLastname());
+        return generateToken(claims, user);
     }
 
     public String generateToken(
@@ -43,6 +47,24 @@ public class JwtService {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 30)))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String generateRefreshToken(User user){
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role",user.getRole());
+        claims.put("name", user.getName() + " " + user.getLastname());
+        return generateRefreshToken(claims, user);
+    }
+
+    public  String generateRefreshToken(Map<String, Object> extraClaims, User userDetails){
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 40))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
