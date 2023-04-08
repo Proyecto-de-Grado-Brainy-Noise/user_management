@@ -50,6 +50,9 @@ public class EmailController {
                 String templatePath = "src/main/resources/emails/" + template + ".html";
                 String html = new String(Files.readAllBytes(Paths.get(templatePath)));
                 html = html.replace("[[name]]", nameUser);
+                if(template.equals("resetPassword")){
+                    html = html.replace("[[url]]", "http://localhost:4200/new-password/" + destinyEmail);
+                }
                 if (passwordUser != null) {
                     html = html.replace("[[password]]", passwordUser);
                 }
