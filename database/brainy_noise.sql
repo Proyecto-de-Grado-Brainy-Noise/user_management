@@ -36,3 +36,7 @@ CREATE TABLE `result` (
     `search_date` datetime(6) DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
+
+INSERT INTO brainy_noise.users
+(`role`, credential, name, name2, lastname, lastname2, doctype, document, birthdate, jobtitle, area, observations, password, creation_date, id_employee)
+VALUES('A', 'estefanibearroyo@gmail.com', 'Estefania', 'Maria', 'Bermudez', 'Arroyo', 1, '1193093873', '2001-01-01', 'Enfermera general', 'Salud general', 'Bien', '$2a$10$ciFhFKgpPZoxhJmhYgD/ROS21ScU4XmETxpWW8aX.qJ/eaYMxlHcC', NULL, 12345678);
