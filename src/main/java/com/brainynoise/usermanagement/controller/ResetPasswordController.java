@@ -39,7 +39,7 @@ public class ResetPasswordController {
     public ResponseEntity<ResponseDataString> resetPassword(@RequestBody ResetPasswordRequest request){
         User us = userService.getUsersByEmail(request.getEmail());
         if (us == null) {
-            return new ResponseEntity<>(new ResponseDataString("El usuario con email " + us.getEmail() + " no existe", 400), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ResponseDataString("El usuario con email " + request.getEmail() + " no existe", 400), HttpStatus.BAD_REQUEST);
         }
         us = userService.updatePassword(request, us);
         if (us == null) {
