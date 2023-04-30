@@ -4,6 +4,11 @@ public class EmailRequest {
     private String email;
     private String confirmEmail;
 
+    public EmailRequest(String email, String confirmEmail) {
+        this.email = email;
+        this.confirmEmail = confirmEmail;
+    }
+
     public String getEmail() {
         return email;
     }
