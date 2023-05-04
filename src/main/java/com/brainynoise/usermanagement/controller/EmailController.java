@@ -26,8 +26,8 @@ public class EmailController {
             String subject = "Test";
             if(template.equals("newUser")){
                 subject = "Bienvenido a BrainyNoise";
-            } else if(template.equals("resetPassword")){
-                subject = "Reestablecimiento de contraseña";
+            } else if (template.equals("codeResetPwd")){
+                subject = "Código reestablecimiento contraseña";
             }
 
             props.put("mail.smtp.auth", "true");
@@ -52,10 +52,9 @@ public class EmailController {
                 InputStream inputStream = EmailController.class.getClassLoader().getResourceAsStream("emails/" + template + ".html");
                 String html = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
                 html = html.replace("[[name]]", nameUser);
-                if(template.equals("resetPassword")){
-                    html = html.replace("[[url]]", "http://127.0.0.1:4200/new-password/" + destinyEmail);
-                }
-                if (passwordUser != null) {
+                if(template.equals("codeResetPwd")){
+                    html = html.replace("[[code]]", passwordUser);
+                }else if (template.equals("newUser")){
                     html = html.replace("[[password]]", passwordUser);
                 }
 

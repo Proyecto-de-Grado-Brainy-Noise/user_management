@@ -67,4 +67,10 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         return repository.save(user);
     }
+
+    public User updateCode(String email, String code){
+        User user = repository.findById(email).orElse(null);
+        user.setCode(code);
+        return repository.save(user);
+    }
 }
