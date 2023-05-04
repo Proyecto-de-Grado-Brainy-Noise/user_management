@@ -5,8 +5,6 @@ import com.brainynoise.usermanagement.requests.CodeRequest;
 import com.brainynoise.usermanagement.requests.EmailRequest;
 import com.brainynoise.usermanagement.requests.ResetPasswordRequest;
 import com.brainynoise.usermanagement.responses.ResponseDataString;
-import com.brainynoise.usermanagement.service.AuthenticationService;
-import com.brainynoise.usermanagement.service.JwtService;
 import com.brainynoise.usermanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,7 +52,7 @@ public class ResetPasswordController {
             EmailController emailController = new EmailController();
             String code = generateCode(user.getEmail());
             emailController.emailSender(request.getEmail(), user.getName(), code, "codeResetPwd");
-            return new ResponseEntity<>(new ResponseDataString("Se envió un correo con un código para el cambio de contraseña", 200), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseDataString("Se envió un correo con un código de verificación para el cambio de contraseña", 200), HttpStatus.OK);
         }
     }
 
