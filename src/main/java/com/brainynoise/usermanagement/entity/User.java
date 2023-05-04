@@ -52,6 +52,8 @@ public class User implements UserDetails {
     private String creationDate;
     @Column(name = "password")
     private String password;
+    @Column(name = "code")
+    private String code;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
