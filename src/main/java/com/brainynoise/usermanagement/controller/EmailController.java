@@ -53,7 +53,7 @@ public class EmailController {
                 String html = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
                 html = html.replace("[[name]]", nameUser);
                 if(template.equals("resetPassword")){
-                    html = html.replace("[[url]]", "http://frontend:4200/new-password/" + destinyEmail);
+                    html = html.replace("[[url]]", "http://127.0.0.1:4200/new-password/" + destinyEmail);
                 }
                 if (passwordUser != null) {
                     html = html.replace("[[password]]", passwordUser);
