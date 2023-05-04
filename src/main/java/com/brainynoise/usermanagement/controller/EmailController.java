@@ -5,6 +5,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
@@ -47,8 +48,9 @@ public class EmailController {
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
                 message.setSubject(subject);
 
-                String templatePath = "src/main/resources/emails/" + template + ".html";
-                String html = new String(Files.readAllBytes(Paths.get(templatePath)));
+
+                InputStream inputStream = EmailController.class.getClassLoader().getResourceAsStream("emails/" + template + ".html");
+                String html = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
                 html = html.replace("[[name]]", nameUser);
                 if(template.equals("codeResetPwd")){
                     html = html.replace("[[code]]", passwordUser);

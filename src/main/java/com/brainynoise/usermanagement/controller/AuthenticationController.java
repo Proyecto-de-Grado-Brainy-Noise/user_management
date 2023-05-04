@@ -3,18 +3,13 @@ package com.brainynoise.usermanagement.controller;
 import com.brainynoise.usermanagement.entity.User;
 import com.brainynoise.usermanagement.requests.AuthenticationRequest;
 import com.brainynoise.usermanagement.requests.RegisterRequest;
-import com.brainynoise.usermanagement.requests.ResetPasswordRequest;
 import com.brainynoise.usermanagement.responses.AuthenticationResponse;
-import com.brainynoise.usermanagement.responses.ResponseDataString;
 import com.brainynoise.usermanagement.service.AuthenticationService;
 import com.brainynoise.usermanagement.service.JwtService;
 import com.brainynoise.usermanagement.service.UserService;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
