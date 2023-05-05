@@ -46,7 +46,7 @@ class ResetPasswordControllerTest {
     @Test
     void sendEmailResPwdOkTest() throws Exception {
         EmailRequest request = new EmailRequest("j.naizaque@javeriana.edu.co", "j.naizaque@javeriana.edu.co");
-        MvcResult responseEntity = mvc.perform(post("/api/reset-password")
+        MvcResult responseEntity = mvc.perform(post("/api/sendcode")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
                 .andExpect(status().isOk()).andReturn();
@@ -56,7 +56,7 @@ class ResetPasswordControllerTest {
     @Test
     void sendEmailResPwdBadTest() throws Exception {
         EmailRequest request = new EmailRequest("j_nzq@javeriana.edu.co", "j_nzq@javeriana.edu.co");
-        MvcResult responseEntity = mvc.perform(post("/api/reset-password")
+        MvcResult responseEntity = mvc.perform(post("/api/sendcode")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
                 .andExpect(status().isBadRequest()).andReturn();
