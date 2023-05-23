@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
+//Source: https://github.com/ali-bouali/spring-boot-3-jwt-security
 public interface TokenRepository extends JpaRepository<Token, Integer> {
     @Query("select t from Token t inner join User u where u.email = :email")
     List<Token> findAllValidTokenByUser(String email);

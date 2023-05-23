@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//Source: https://github.com/ali-bouali/spring-boot-3-jwt-security
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
