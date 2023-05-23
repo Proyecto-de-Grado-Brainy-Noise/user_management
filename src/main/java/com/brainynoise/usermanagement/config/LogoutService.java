@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
 
+//Source: https://github.com/ali-bouali/spring-boot-3-jwt-security
 @Service
 @RequiredArgsConstructor
 public class LogoutService implements LogoutHandler {

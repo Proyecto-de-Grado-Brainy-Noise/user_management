@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+//Source: https://github.com/ali-bouali/spring-boot-3-jwt-security
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {

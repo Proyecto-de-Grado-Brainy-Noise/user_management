@@ -12,6 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
+//Source: https://github.com/ali-bouali/spring-boot-3-jwt-security
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

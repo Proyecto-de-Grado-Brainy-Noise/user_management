@@ -18,6 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+//Source: https://github.com/ali-bouali/spring-boot-3-jwt-security
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
